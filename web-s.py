@@ -35,11 +35,18 @@ def first_bb_extract(file):
 	data = str(file.read())
 	product_extracted_data = re.findall(r'href="/en-ca/product/(.*?)/', data)
 	file_out = open("bb_extracted_data.txt", "w")
+
+	# Grabs the producers and groups them
+	producers = {"hp":[], "le":[], "de":[], "as":[], "ap":[], "ac":[]}
 	for product in product_extracted_data:
 		brand = re.search(r'^(.{2})', product)
-		file_out.write("Producer: " + brand.group(0) + "	")
-		file_out.write(product)
-		file_out.write("\n")
+		producers[brand.group(0)].append(product)
+
+	for key in producers.keys():
+		for product in producers[key]:
+			file_out.write("Producer: " + key + "	")
+			file_out.write(product)
+			file_out.write("\n")
 
 
 if __name__ == "__main__":
