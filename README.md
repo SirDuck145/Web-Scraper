@@ -5,7 +5,7 @@ This algorithm scrapes Best Buy's website using RegEx
 Run web-s.py in your terminal<br/>
 it will output two text files. The first being raw data of each product<br/>
 The second file, titled "bb_extracted_data.txt" contains a list of products and their prices ordered by manufacturer<br/>
-*Image coming soon*
+![Test Image](Screenshots/Extracted_Data.png)
 
 ## Skills Learned
 This project was a quick dive into the world of RegEx.<br/>
