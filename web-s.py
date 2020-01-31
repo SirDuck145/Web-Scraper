@@ -43,11 +43,14 @@ def first_bb_extract(file):
 	prices, sales = extract_price(file)
 
 	# Grabs the producers and groups them
-	producers = {"hp":[], "le":[], "de":[], "as":[], "ap":[], "ac":[], "sa":[]}
+	producers = {}
 	for product in product_extracted_data:
 		# Matches with the first two characters in a line
 		brand = re.search(r'^(.{2})', product)
-		producers[brand.group(0)].append(product)
+		if brand.group(0) in producers:
+			producers[brand.group(0)].append(product)
+		else:
+			producers[brand.group(0)] = []
 
 
 	count = 0
