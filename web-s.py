@@ -29,24 +29,34 @@ def main():
 	file_out.close()
 
 	file = open("bb_product_list.txt", "r")
+	file = file.read()
 	first_bb_extract(file)
 
+def extract_price(file):
+	prices = re.findall(r'(?<!SAVE )([$]+[0-9.,]*)', file)
+	sales = re.findall(r'(?<=SAVE )([$]+[0-9.,]*)|$', file)
+	return prices, sales
+
 def first_bb_extract(file):
-	data = str(file.read())
-	product_extracted_data = re.findall(r'href="/en-ca/product/(.*?)/', data)
+	product_extracted_data = re.findall(r'href="/en-ca/product/(.*?)/', file)
 	file_out = open("bb_extracted_data.txt", "w")
+	prices, sales = extract_price(file)
 
 	# Grabs the producers and groups them
-	producers = {"hp":[], "le":[], "de":[], "as":[], "ap":[], "ac":[]}
+	producers = {"hp":[], "le":[], "de":[], "as":[], "ap":[], "ac":[], "sa":[]}
 	for product in product_extracted_data:
+		# Matches with the first two characters in a line
 		brand = re.search(r'^(.{2})', product)
 		producers[brand.group(0)].append(product)
 
+
+	count = 0
 	for key in producers.keys():
 		for product in producers[key]:
-			file_out.write("Producer: " + key + "	")
+			file_out.write("Producer: " + key + " Price: " + prices[2*count] + "	")
 			file_out.write(product)
 			file_out.write("\n")
+			count += 1
 
 
 if __name__ == "__main__":
